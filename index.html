@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./build/bin/clang-format.js"></script>
+    <script>
+        Module.noInitialRun = true;
+        Module.onRuntimeInitialized = async _ => {
+            const api = {
+                clang_format_init: Module.cwrap('clang_format_init', null),
+                clang_format_buffer: Module.cwrap('clang_format_buffer', 'number', ['string', 'string'])
+            };
+            console.log(api.clang_format_init());
+            console.log(api.clang_format_buffer("Google", "int main() { int k = 0; return 0; }"));
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+diff --git a/clang/tools/clang-format/CMakeLists.txt b/clang/tools/clang-format/CMakeLists.txt
+index bbdef93b5..db23d74b7 100644
+--- a/clang/tools/clang-format/CMakeLists.txt
++++ b/clang/tools/clang-format/CMakeLists.txt
+@@ -16,6 +16,8 @@ clang_target_link_libraries(clang-format
+   ${CLANG_FORMAT_LIB_DEPS}
+   )
+ 
++set_target_properties(clang-format PROPERTIES LINK_FLAGS "-sEXPORTED_FUNCTIONS=_clang_format_init,_clang_format_buffer")
++
+ if( LLVM_LIB_FUZZING_ENGINE OR LLVM_USE_SANITIZE_COVERAGE )
+   add_subdirectory(fuzzer)
+ endif()
+diff --git a/clang/tools/clang-format/ClangFormat.cpp b/clang/tools/clang-format/ClangFormat.cpp
+index 269bc5950..fe8d853e1 100644
+--- a/clang/tools/clang-format/ClangFormat.cpp
++++ b/clang/tools/clang-format/ClangFormat.cpp
+@@ -631,3 +631,158 @@ int main(int argc, const char **argv) {
+   }
+   return Error ? 1 : 0;
+ }
++
++
++extern "C" {
++
++extern void clang_format_init() {
++  int argc = 1;
++  char* argv_source[] = {(char*)"clang-format"};
++  char** argv = argv_source;
++  llvm::InitLLVM X(argc, argv);
++
++  cl::HideUnrelatedOptions(ClangFormatCategory);
++
++  cl::SetVersionPrinter(PrintVersion);
++  cl::ParseCommandLineOptions(
++      argc, argv,
++      "A tool to format C/C++/Java/JavaScript/JSON/Objective-C/Protobuf/C# "
++      "code.\n\n"
++      "If no arguments are specified, it formats the code from standard input\n"
++      "and writes the result to the standard output.\n"
++      "If <file>s are given, it reformats the files. If -i is specified\n"
++      "together with <file>s, the files are edited in-place. Otherwise, the\n"
++      "result is written to the standard output.\n");
++}
++
++extern bool clang_format_buffer(const char* config, const char* data) {
++  // On Windows, overwriting a file with an open file mapping doesn't work,
++  // so read the whole file into memory when formatting in-place.
++  ErrorOr<std::unique_ptr<MemoryBuffer>> CodeOrErr = MemoryBuffer::getMemBuffer(data);
++  if (std::error_code EC = CodeOrErr.getError()) {
++    errs() << EC.message() << "\n";
++    return true;
++  }
++  std::unique_ptr<llvm::MemoryBuffer> Code = std::move(CodeOrErr.get());
++  if (Code->getBufferSize() == 0)
++    return false; // Empty files are formatted correctly.
++
++  StringRef BufStr = Code->getBuffer();
++
++  const char *InvalidBOM = clang::SrcMgr::ContentCache::getInvalidBOM(BufStr);
++
++  if (InvalidBOM) {
++    errs() << "error: encoding with unsupported byte order mark \""
++           << InvalidBOM << "\" detected";
++    errs() << ".\n";
++    return true;
++  }
++
++  std::vector<clang::tooling::Range> Ranges;
++  if (clang::format::fillRanges(Code.get(), Ranges))
++    return true;
++  StringRef AssumedFileName = AssumeFileName;
++  if (AssumedFileName.empty()) {
++    llvm::errs() << "error: empty filenames are not allowed\n";
++    return true;
++  }
++
++  llvm::Expected<clang::format::FormatStyle> FormatStyle =
++      clang::format::getStyle(std::string(config), AssumedFileName, FallbackStyle, Code->getBuffer(),
++               nullptr, WNoErrorList.isSet(WNoError::Unknown));
++  if (!FormatStyle) {
++    llvm::errs() << llvm::toString(FormatStyle.takeError()) << "\n";
++    return true;
++  }
++
++  StringRef QualifierAlignmentOrder = QualifierAlignment;
++
++  FormatStyle->QualifierAlignment =
++      StringSwitch<clang::format::FormatStyle::QualifierAlignmentStyle>(
++          QualifierAlignmentOrder.lower())
++          .Case("right", clang::format::FormatStyle::QAS_Right)
++          .Case("left", clang::format::FormatStyle::QAS_Left)
++          .Default(FormatStyle->QualifierAlignment);
++
++  if (FormatStyle->QualifierAlignment == clang::format::FormatStyle::QAS_Left) {
++    FormatStyle->QualifierOrder = {"const", "volatile", "type"};
++  } else if (FormatStyle->QualifierAlignment == clang::format::FormatStyle::QAS_Right) {
++    FormatStyle->QualifierOrder = {"type", "const", "volatile"};
++  } else if (QualifierAlignmentOrder.contains("type")) {
++    FormatStyle->QualifierAlignment = clang::format::FormatStyle::QAS_Custom;
++    SmallVector<StringRef> Qualifiers;
++    QualifierAlignmentOrder.split(Qualifiers, " ", /*MaxSplit=*/-1,
++                                  /*KeepEmpty=*/false);
++    FormatStyle->QualifierOrder = {Qualifiers.begin(), Qualifiers.end()};
++  }
++
++  if (SortIncludes.getNumOccurrences() != 0) {
++    if (SortIncludes)
++      FormatStyle->SortIncludes = clang::format::FormatStyle::SI_CaseSensitive;
++    else
++      FormatStyle->SortIncludes = clang::format::FormatStyle::SI_Never;
++  }
++  unsigned CursorPosition = Cursor;
++  Replacements Replaces = sortIncludes(*FormatStyle, Code->getBuffer(), Ranges,
++                                       AssumedFileName, &CursorPosition);
++
++  // To format JSON insert a variable to trick the code into thinking its
++  // JavaScript.
++  if (FormatStyle->isJson() && !FormatStyle->DisableFormat) {
++    auto Err = Replaces.add(clang::tooling::Replacement(
++        clang::tooling::Replacement(AssumedFileName, 0, 0, "x = ")));
++    if (Err)
++      llvm::errs() << "Bad Json variable insertion\n";
++  }
++
++  auto ChangedCode = clang::tooling::applyAllReplacements(Code->getBuffer(), Replaces);
++  if (!ChangedCode) {
++    llvm::errs() << llvm::toString(ChangedCode.takeError()) << "\n";
++    return true;
++  }
++  // Get new affected ranges after sorting `#includes`.
++  Ranges = clang::tooling::calculateRangesAfterReplacements(Replaces, Ranges);
++  clang::format::FormattingAttemptStatus Status;
++  Replacements FormatChanges =
++      reformat(*FormatStyle, *ChangedCode, Ranges, AssumedFileName, &Status);
++  Replaces = Replaces.merge(FormatChanges);
++  if (OutputXML || DryRun) {
++    if (DryRun)
++      return clang::format::emitReplacementWarnings(Replaces, AssumedFileName, Code);
++    else
++      outputXML(Replaces, FormatChanges, Status, Cursor, CursorPosition);
++  } else {
++    IntrusiveRefCntPtr<llvm::vfs::InMemoryFileSystem> InMemoryFileSystem(
++        new llvm::vfs::InMemoryFileSystem);
++    clang::FileManager Files(clang::FileSystemOptions(), InMemoryFileSystem);
++
++    IntrusiveRefCntPtr<clang::DiagnosticOptions> DiagOpts(new clang::DiagnosticOptions());
++    clang::format::ClangFormatDiagConsumer IgnoreDiagnostics;
++    clang::DiagnosticsEngine Diagnostics(
++        IntrusiveRefCntPtr<clang::DiagnosticIDs>(new clang::DiagnosticIDs), &*DiagOpts,
++        &IgnoreDiagnostics, false);
++    clang::SourceManager Sources(Diagnostics, Files);
++    clang::FileID ID = clang::format::createInMemoryFile(AssumedFileName, *Code, Sources, Files,
++                                   InMemoryFileSystem.get());
++    clang::Rewriter Rewrite(Sources, clang::LangOptions());
++    clang::tooling::applyAllReplacements(Replaces, Rewrite);
++    if (Inplace) {
++      if (Rewrite.overwriteChangedFiles())
++        return true;
++    } else {
++      if (Cursor.getNumOccurrences() != 0) {
++        outs() << "{ \"Cursor\": "
++               << FormatChanges.getShiftedCodePosition(CursorPosition)
++               << ", \"IncompleteFormat\": "
++               << (Status.FormatComplete ? "false" : "true");
++        if (!Status.FormatComplete)
++          outs() << ", \"Line\": " << Status.Line;
++        outs() << " }\n";
++      }
++      Rewrite.getEditBuffer(ID).write(outs());
++    }
++  }
++  return false;
++}
++
++}

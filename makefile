@@ -6,8 +6,11 @@ gen_linker_flags   = -DCMAKE_EXE_LINKER_FLAGS="$(1)" -DCMAKE_SHARED_LINKER_FLAGS
 .PHONY: ninja 
 ninja: build
 	cd build && ninja -v clang-format
+	mkdir -p out
+	cp build/bin/clang-format.js out/clang-format.js
+	cp build/bin/clang-format.wasm out/clang-format.wasm
 
-build: $(PWD)/pre.js makefile emsdk llvm-project
+build: $(PWD)/pre.js makefile 
 	mkdir -p build/
 	emcmake cmake -G Ninja -B build -S llvm-project/llvm \
 		-DCMAKE_BUILD_TYPE=${LLVM_BUILD_TYPE} \
@@ -25,10 +28,13 @@ build: $(PWD)/pre.js makefile emsdk llvm-project
 		-DCMAKE_TOOLCHAIN_FILE=$(PWD)/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
 	touch build
 
+install-deps: emsdk llvm-project
+
+
 emsdk:
 	git clone https://github.com/emscripten-core/emsdk.git
 	cd emsdk && ./emsdk install latest && ./emsdk activate latest
 
 llvm-project:
 	git clone --branch release/15.x --depth 1 git@github.com:llvm/llvm-project.git
-	cd llvm-projet && git apply ../clang_format.patch
+	cd llvm-project && git apply ../clang_format.patch

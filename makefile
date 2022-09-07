@@ -10,7 +10,7 @@ ninja: build
 	cp build/bin/clang-format.js out/clang-format.js
 	cp build/bin/clang-format.wasm out/clang-format.wasm
 
-build: $(PWD)/pre.js makefile 
+build: makefile 
 	mkdir -p build/
 	emcmake cmake -G Ninja -B build -S llvm-project/llvm \
 		-DCMAKE_BUILD_TYPE=${LLVM_BUILD_TYPE} \
@@ -24,7 +24,7 @@ build: $(PWD)/pre.js makefile
 		-DLLVM_ENABLE_PROJECTS="clang" \
 		-DCMAKE_INSTALL_PREFIX=install \
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
-		$(call gen_linker_flags,--pre-js $(PWD)/pre.js -sEXPORTED_RUNTIME_METHODS=ccall$(COMMA)cwrap) \
+		$(call gen_linker_flags,-sEXPORTED_RUNTIME_METHODS=ccall$(COMMA)cwrap) \
 		-DCMAKE_TOOLCHAIN_FILE=$(PWD)/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
 	touch build
 

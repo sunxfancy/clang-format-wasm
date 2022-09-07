@@ -1,23 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>clang-format configurator</title>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"
+        integrity="sha512-Qlv6VSKh1gDKGoJbnyA5RMXYcvnpIqhO++MhIM2fStMcGT9i2T//tSwYFlcyoRRDcDZ+TYHpH8azBBCyhpSeqw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajaxorg.github.io/ace-builds/src-min-noconflict/ace.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="configurator.js"></script>
+    <style type="text/css">
+        #code {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 50px;
+            left: 0;
+        }
+
+        body {
+            padding-top: 50px;
+        }
+
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
+    </style>
 </head>
+
 <body>
-    <script src="./out/clang-format.js"></script>
-    <script>
-        Module.noInitialRun = true;
-        Module.onRuntimeInitialized = async _ => {
-            const api = {
-                clang_format_init: Module.cwrap('clang_format_init', null),
-                clang_format_buffer: Module.cwrap('clang_format_buffer', 'number', ['string', 'string'])
-            };
-            console.log(api.clang_format_init());
-            console.log(api.clang_format_buffer("Google", "int main() { int k = 0; return 0; }"));
-        };
-    </script>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <span class="navbar-brand">clang-format configurator</span>
+            </div>
+            <div class="navbar-form">
+                <span class="navbar-right">
+                    <span id="version">
+                    </span>
+                    <button class="btn btn-default" id="update_button">
+                        <i class="fa fa-refresh fa-fw"></i> Update!
+                    </button>
+                    <button class="btn btn-default" id="save_button">
+                        <i class="fa fa-download fa-fw"></i> Save
+                    </button>
+                    <span class="btn btn-default btn-file">
+                        <i class="fa fa-upload fa-fw"></i> Load <input id="load_button" type="file">
+                    </span>
+                    <a class="btn btn-default" href="http://github.com/zed0/clang-format-configurator">
+                        <i class="fa fa-github fa-fw"></i> Contribute
+                    </a>
+                </span>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6" style="padding-top: 10px; word-wrap: break-word;">
+                <form class="form-horizontal" id="options">
+                </form>
+            </div>
+            <div class="col-sm-6" style="position: fixed; right: 0; height: 100%;">
+                <div id="code"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="error_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Error</h4>
+                </div>
+                <div class="modal-body" id="error_content">
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

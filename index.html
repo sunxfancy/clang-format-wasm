@@ -13,6 +13,17 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://ajaxorg.github.io/ace-builds/src-min-noconflict/ace.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script>
+        var stdout = "";
+        function getNewFormatedCode(text) {
+            stdout = stdout.concat(text,"\n");
+        }
+        var Module = {
+            "noInitialRun": true, 
+            print: getNewFormatedCode,
+        };
+    </script>
+    <script src="./out/clang-format.js"></script>
     <script src="configurator.js"></script>
     <style type="text/css">
         #code {

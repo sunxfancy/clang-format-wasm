@@ -1,0 +1,787 @@
+{
+    "BasedOnStyle": {
+        "type": "String",
+        "options": [
+            "LLVM",
+            "Google",
+            "Chromium",
+            "Mozilla",
+            "WebKit",
+            "Microsoft",
+            "GNU",
+            "InheritParentConfig"
+        ]
+    },
+    "AccessModifierOffset": {
+        "type": "Integer",
+        "options": []
+    },
+    "AlignAfterOpenBracket": {
+        "type": "BracketAlignmentStyle",
+        "options": [
+            "Align",
+            "DontAlign",
+            "AlwaysBreak",
+            "BlockIndent"
+        ]
+    },
+    "AlignArrayOfStructures": {
+        "type": "ArrayInitializerAlignmentStyle",
+        "options": [
+            "Left",
+            "Right",
+            "None"
+        ]
+    },
+    "AlignConsecutiveAssignments": {
+        "type": "AlignConsecutiveStyle",
+        "options": []
+    },
+    "AlignConsecutiveBitFields": {
+        "type": "AlignConsecutiveStyle",
+        "options": []
+    },
+    "AlignConsecutiveDeclarations": {
+        "type": "AlignConsecutiveStyle",
+        "options": []
+    },
+    "AlignConsecutiveMacros": {
+        "type": "AlignConsecutiveStyle",
+        "options": []
+    },
+    "AlignEscapedNewlines": {
+        "type": "EscapedNewlineAlignmentStyle",
+        "options": [
+            "DontAlign",
+            "Left",
+            "Right"
+        ]
+    },
+    "AlignOperands": {
+        "type": "OperandAlignmentStyle",
+        "options": [
+            "DontAlign",
+            "Align",
+            "AlignAfterOperator"
+        ]
+    },
+    "AlignTrailingComments": {
+        "type": "Boolean",
+        "options": []
+    },
+    "AllowAllArgumentsOnNextLine": {
+        "type": "Boolean",
+        "options": []
+    },
+    "AllowAllConstructorInitializersOnNextLine": {
+        "type": "Boolean",
+        "options": []
+    },
+    "AllowAllParametersOfDeclarationOnNextLine": {
+        "type": "Boolean",
+        "options": []
+    },
+    "AllowShortBlocksOnASingleLine": {
+        "type": "ShortBlockStyle",
+        "options": [
+            "Never",
+            "Empty",
+            "Always"
+        ]
+    },
+    "AllowShortCaseLabelsOnASingleLine": {
+        "type": "Boolean",
+        "options": []
+    },
+    "AllowShortEnumsOnASingleLine": {
+        "type": "Boolean",
+        "options": []
+    },
+    "AllowShortFunctionsOnASingleLine": {
+        "type": "ShortFunctionStyle",
+        "options": [
+            "None",
+            "InlineOnly",
+            "Empty",
+            "Inline",
+            "All"
+        ]
+    },
+    "AllowShortIfStatementsOnASingleLine": {
+        "type": "ShortIfStyle",
+        "options": [
+            "Never",
+            "WithoutElse",
+            "OnlyFirstIf",
+            "AllIfsAndElse"
+        ]
+    },
+    "AllowShortLambdasOnASingleLine": {
+        "type": "ShortLambdaStyle",
+        "options": [
+            "None",
+            "Empty",
+            "Inline",
+            "All"
+        ]
+    },
+    "AllowShortLoopsOnASingleLine": {
+        "type": "Boolean",
+        "options": []
+    },
+    "AlwaysBreakAfterDefinitionReturnType": {
+        "type": "DefinitionReturnTypeBreakingStyle",
+        "options": [
+            "None",
+            "All",
+            "TopLevel"
+        ]
+    },
+    "AlwaysBreakAfterReturnType": {
+        "type": "ReturnTypeBreakingStyle",
+        "options": [
+            "None",
+            "All",
+            "TopLevel",
+            "AllDefinitions",
+            "TopLevelDefinitions"
+        ]
+    },
+    "AlwaysBreakBeforeMultilineStrings": {
+        "type": "Boolean",
+        "options": []
+    },
+    "AlwaysBreakTemplateDeclarations": {
+        "type": "BreakTemplateDeclarationsStyle",
+        "options": [
+            "No",
+            "MultiLine",
+            "Yes"
+        ]
+    },
+    "AttributeMacros": {
+        "type": "List of Strings",
+        "options": []
+    },
+    "BinPackArguments": {
+        "type": "Boolean",
+        "options": []
+    },
+    "BinPackParameters": {
+        "type": "Boolean",
+        "options": []
+    },
+    "BitFieldColonSpacing": {
+        "type": "BitFieldColonSpacingStyle",
+        "options": [
+            "Both",
+            "None",
+            "Before",
+            "After"
+        ]
+    },
+    "BraceWrapping": {
+        "type": "BraceWrappingFlags",
+        "options": [
+            "AfterCaseLabel",
+            "AfterClass",
+            "AfterEnum",
+            "AfterFunction",
+            "AfterNamespace",
+            "AfterObjCDeclaration",
+            "AfterStruct",
+            "AfterUnion",
+            "AfterExternBlock",
+            "BeforeCatch",
+            "BeforeElse",
+            "BeforeLambdaBody",
+            "BeforeWhile",
+            "IndentBraces",
+            "SplitEmptyFunction",
+            "SplitEmptyRecord",
+            "SplitEmptyNamespace"
+        ]
+    },
+    "BreakAfterJavaFieldAnnotations": {
+        "type": "Boolean",
+        "options": []
+    },
+    "BreakBeforeBinaryOperators": {
+        "type": "BinaryOperatorStyle",
+        "options": [
+            "None",
+            "NonAssignment",
+            "All"
+        ]
+    },
+    "BreakBeforeBraces": {
+        "type": "BraceBreakingStyle",
+        "options": [
+            "Attach",
+            "Linux",
+            "Mozilla",
+            "Stroustrup",
+            "Allman",
+            "Whitesmiths",
+            "GNU",
+            "WebKit",
+            "Custom"
+        ]
+    },
+    "BreakBeforeConceptDeclarations": {
+        "type": "BreakBeforeConceptDeclarationsStyle",
+        "options": [
+            "Never",
+            "Allowed",
+            "Always"
+        ]
+    },
+    "BreakBeforeTernaryOperators": {
+        "type": "Boolean",
+        "options": []
+    },
+    "BreakConstructorInitializers": {
+        "type": "BreakConstructorInitializersStyle",
+        "options": [
+            "BeforeColon",
+            "BeforeComma",
+            "AfterColon"
+        ]
+    },
+    "BreakInheritanceList": {
+        "type": "BreakInheritanceListStyle",
+        "options": [
+            "BeforeColon",
+            "BeforeComma",
+            "AfterColon",
+            "AfterComma"
+        ]
+    },
+    "BreakStringLiterals": {
+        "type": "Boolean",
+        "options": []
+    },
+    "ColumnLimit": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "CommentPragmas": {
+        "type": "String",
+        "options": []
+    },
+    "CompactNamespaces": {
+        "type": "Boolean",
+        "options": []
+    },
+    "ConstructorInitializerAllOnOneLineOrOnePerLine": {
+        "type": "Boolean",
+        "options": []
+    },
+    "ConstructorInitializerIndentWidth": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "ContinuationIndentWidth": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "Cpp11BracedListStyle": {
+        "type": "Boolean",
+        "options": []
+    },
+    "DeriveLineEnding": {
+        "type": "Boolean",
+        "options": []
+    },
+    "DerivePointerAlignment": {
+        "type": "Boolean",
+        "options": []
+    },
+    "DisableFormat": {
+        "type": "Boolean",
+        "options": []
+    },
+    "EmptyLineAfterAccessModifier": {
+        "type": "EmptyLineAfterAccessModifierStyle",
+        "options": [
+            "Never",
+            "Leave",
+            "Always"
+        ]
+    },
+    "EmptyLineBeforeAccessModifier": {
+        "type": "EmptyLineBeforeAccessModifierStyle",
+        "options": [
+            "Never",
+            "Leave",
+            "LogicalBlock",
+            "Always"
+        ]
+    },
+    "ExperimentalAutoDetectBinPacking": {
+        "type": "Boolean",
+        "options": []
+    },
+    "FixNamespaceComments": {
+        "type": "Boolean",
+        "options": []
+    },
+    "ForEachMacros": {
+        "type": "List of Strings",
+        "options": []
+    },
+    "IfMacros": {
+        "type": "List of Strings",
+        "options": []
+    },
+    "IncludeBlocks": {
+        "type": "IncludeBlocksStyle",
+        "options": [
+            "Preserve",
+            "Merge",
+            "Regroup"
+        ]
+    },
+    "IncludeCategories": {
+        "type": "List of IncludeCategories",
+        "options": []
+    },
+    "IncludeIsMainRegex": {
+        "type": "String",
+        "options": []
+    },
+    "IncludeIsMainSourceRegex": {
+        "type": "String",
+        "options": []
+    },
+    "IndentAccessModifiers": {
+        "type": "Boolean",
+        "options": []
+    },
+    "IndentCaseBlocks": {
+        "type": "Boolean",
+        "options": []
+    },
+    "IndentCaseLabels": {
+        "type": "Boolean",
+        "options": []
+    },
+    "IndentExternBlock": {
+        "type": "IndentExternBlockStyle",
+        "options": [
+            "AfterExternBlock",
+            "NoIndent",
+            "Indent"
+        ]
+    },
+    "IndentGotoLabels": {
+        "type": "Boolean",
+        "options": []
+    },
+    "IndentPPDirectives": {
+        "type": "PPDirectiveIndentStyle",
+        "options": [
+            "None",
+            "AfterHash",
+            "BeforeHash"
+        ]
+    },
+    "IndentRequiresClause": {
+        "type": "Boolean",
+        "options": []
+    },
+    "IndentWidth": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "IndentWrappedFunctionNames": {
+        "type": "Boolean",
+        "options": []
+    },
+    "InsertBraces": {
+        "type": "Boolean",
+        "options": []
+    },
+    "InsertTrailingCommas": {
+        "type": "TrailingCommaStyle",
+        "options": [
+            "None",
+            "Wrapped"
+        ]
+    },
+    "JavaImportGroups": {
+        "type": "List of Strings",
+        "options": []
+    },
+    "JavaScriptQuotes": {
+        "type": "JavaScriptQuoteStyle",
+        "options": [
+            "Leave",
+            "Single",
+            "Double"
+        ]
+    },
+    "JavaScriptWrapImports": {
+        "type": "Boolean",
+        "options": []
+    },
+    "KeepEmptyLinesAtTheStartOfBlocks": {
+        "type": "Boolean",
+        "options": []
+    },
+    "LambdaBodyIndentation": {
+        "type": "LambdaBodyIndentationKind",
+        "options": [
+            "Signature",
+            "OuterScope"
+        ]
+    },
+    "Language": {
+        "type": "LanguageKind",
+        "options": [
+            "None",
+            "Cpp",
+            "CSharp",
+            "Java",
+            "JavaScript",
+            "Json",
+            "ObjC",
+            "Proto",
+            "TableGen",
+            "TextProto",
+            "Verilog"
+        ]
+    },
+    "MacroBlockBegin": {
+        "type": "String",
+        "options": []
+    },
+    "MacroBlockEnd": {
+        "type": "String",
+        "options": []
+    },
+    "MaxEmptyLinesToKeep": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "NamespaceIndentation": {
+        "type": "NamespaceIndentationKind",
+        "options": [
+            "None",
+            "Inner",
+            "All"
+        ]
+    },
+    "NamespaceMacros": {
+        "type": "List of Strings",
+        "options": []
+    },
+    "ObjCBinPackProtocolList": {
+        "type": "BinPackStyle",
+        "options": [
+            "Auto",
+            "Always",
+            "Never"
+        ]
+    },
+    "ObjCBlockIndentWidth": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "ObjCBreakBeforeNestedBlockParam": {
+        "type": "Boolean",
+        "options": []
+    },
+    "ObjCSpaceAfterProperty": {
+        "type": "Boolean",
+        "options": []
+    },
+    "ObjCSpaceBeforeProtocolList": {
+        "type": "Boolean",
+        "options": []
+    },
+    "PPIndentWidth": {
+        "type": "Integer",
+        "options": []
+    },
+    "PackConstructorInitializers": {
+        "type": "PackConstructorInitializersStyle",
+        "options": [
+            "Never",
+            "BinPack",
+            "CurrentLine",
+            "NextLine"
+        ]
+    },
+    "PenaltyBreakAssignment": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "PenaltyBreakBeforeFirstCallParameter": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "PenaltyBreakComment": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "PenaltyBreakFirstLessLess": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "PenaltyBreakOpenParenthesis": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "PenaltyBreakString": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "PenaltyBreakTemplateDeclaration": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "PenaltyExcessCharacter": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "PenaltyIndentedWhitespace": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "PenaltyReturnTypeOnItsOwnLine": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "PointerAlignment": {
+        "type": "PointerAlignmentStyle",
+        "options": [
+            "Left",
+            "Right",
+            "Middle"
+        ]
+    },
+    "QualifierAlignment": {
+        "type": "QualifierAlignmentStyle",
+        "options": [
+            "Leave",
+            "Left",
+            "Right",
+            "Custom"
+        ]
+    },
+    "QualifierOrder": {
+        "type": "List of Strings",
+        "options": []
+    },
+    "RawStringFormats": {
+        "type": "List of RawStringFormats",
+        "options": []
+    },
+    "ReferenceAlignment": {
+        "type": "ReferenceAlignmentStyle",
+        "options": [
+            "Pointer",
+            "Left",
+            "Right",
+            "Middle"
+        ]
+    },
+    "ReflowComments": {
+        "type": "Boolean",
+        "options": []
+    },
+    "RemoveBracesLLVM": {
+        "type": "Boolean",
+        "options": []
+    },
+    "RequiresClausePosition": {
+        "type": "RequiresClausePositionStyle",
+        "options": [
+            "OwnLine",
+            "WithPreceding",
+            "WithFollowing",
+            "SingleLine"
+        ]
+    },
+    "SeparateDefinitionBlocks": {
+        "type": "SeparateDefinitionStyle",
+        "options": [
+            "Leave",
+            "Always",
+            "Never"
+        ]
+    },
+    "ShortNamespaceLines": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "SortIncludes": {
+        "type": "SortIncludesOptions",
+        "options": [
+            "Never",
+            "CaseSensitive",
+            "CaseInsensitive"
+        ]
+    },
+    "SortJavaStaticImport": {
+        "type": "SortJavaStaticImportOptions",
+        "options": [
+            "Before",
+            "After"
+        ]
+    },
+    "SortUsingDeclarations": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpaceAfterCStyleCast": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpaceAfterLogicalNot": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpaceAfterTemplateKeyword": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpaceAroundPointerQualifiers": {
+        "type": "SpaceAroundPointerQualifiersStyle",
+        "options": [
+            "Default",
+            "Before",
+            "After",
+            "Both"
+        ]
+    },
+    "SpaceBeforeAssignmentOperators": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpaceBeforeCaseColon": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpaceBeforeCpp11BracedList": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpaceBeforeCtorInitializerColon": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpaceBeforeInheritanceColon": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpaceBeforeParens": {
+        "type": "SpaceBeforeParensStyle",
+        "options": [
+            "Never",
+            "ControlStatements",
+            "ControlStatementsExceptControlMacros",
+            "NonEmptyParentheses",
+            "Always",
+            "Custom"
+        ]
+    },
+    "SpaceBeforeParensOptions": {
+        "type": "SpaceBeforeParensCustom",
+        "options": []
+    },
+    "SpaceBeforeRangeBasedForLoopColon": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpaceBeforeSquareBrackets": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpaceInEmptyBlock": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpaceInEmptyParentheses": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpacesBeforeTrailingComments": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "SpacesInAngles": {
+        "type": "SpacesInAnglesStyle",
+        "options": [
+            "Never",
+            "Always",
+            "Leave"
+        ]
+    },
+    "SpacesInCStyleCastParentheses": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpacesInConditionalStatement": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpacesInContainerLiterals": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpacesInLineCommentPrefix": {
+        "type": "SpacesInLineComment",
+        "options": []
+    },
+    "SpacesInParentheses": {
+        "type": "Boolean",
+        "options": []
+    },
+    "SpacesInSquareBrackets": {
+        "type": "Boolean",
+        "options": []
+    },
+    "Standard": {
+        "type": "LanguageStandard",
+        "options": [
+            "Latest",
+            "Auto"
+        ]
+    },
+    "StatementAttributeLikeMacros": {
+        "type": "List of Strings",
+        "options": []
+    },
+    "StatementMacros": {
+        "type": "List of Strings",
+        "options": []
+    },
+    "TabWidth": {
+        "type": "Unsigned",
+        "options": []
+    },
+    "TypenameMacros": {
+        "type": "List of Strings",
+        "options": []
+    },
+    "UseCRLF": {
+        "type": "Boolean",
+        "options": []
+    },
+    "UseTab": {
+        "type": "UseTabStyle",
+        "options": [
+            "Never",
+            "ForIndentation",
+            "ForContinuationAndIndentation",
+            "AlignWithSpaces",
+            "Always"
+        ]
+    },
+    "WhitespaceSensitiveMacros": {
+        "type": "List of Strings",
+        "options": []
+    }
+}

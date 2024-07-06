@@ -1,19 +1,29 @@
 
-// var example = fs.readFileSync("CodeExample.cpp", 'utf8').toString();
-
 var code;
 var clang_options;
 var clang_version;
+var api;
+
+Module.onRuntimeInitialized = async _ => {
+	api = {
+		clang_format_init: Module.cwrap('clang_format_init', null),
+		clang_format_buffer: Module.cwrap('clang_format_buffer', 'number', ['string', 'string'])
+	};
+	console.log(api.clang_format_init());
+	console.log("clang_format loaded");
+};
 
 $(document).ready(function(){
-	// $.ajax({
-	// 	url: config.url + '/doc',
-	// 	type: 'GET',
-	// 	dataType: 'json',
-	// 	crossDomain: true,
-	// 	success: create_inputs,
-	// 	error: handle_ajax_error
-	// });
+	$.ajax({
+		url: 'options.json',
+		type: 'GET',
+		dataType: 'json',
+		crossDomain: false,
+		success: function(data){
+			create_inputs({"v15": data})
+		},
+		error: handle_ajax_error
+	});
 
 	code = ace.edit('code');
 	code.setTheme('ace/theme/twilight');
@@ -24,7 +34,17 @@ $(document).ready(function(){
 	code.setOption('showInvisibles', true);
 	code.setPrintMarginColumn(80);
 	code.$blockScrolling = Infinity;
-	// code.getSession().setValue(example);
+
+	$.ajax({
+		url: 'CodeExample.cpp',
+		type: 'GET',
+		dataType: 'text',
+		crossDomain: false,
+		success: function(data){
+			code.getSession().setValue(data);
+		},
+		error: handle_ajax_error
+	});
 
 
 	$('#update_button').on('click', function(evt){
@@ -57,15 +77,11 @@ function request_update(clang_options, version){
 	if(range.start.row != range.end.row && range.start.column != range.end.column)
 		options.range = range.start.row + ':' + range.end.row;
 
-	$.ajax({
-		url: config.url + '/format',
-		type: 'POST',
-		dataType: 'json',
-		crossDomain: true,
-		success: update_code,
-		error: handle_ajax_error,
-		data: options
-	});
+	stdout = "";
+	console.log(options.config);
+	api.clang_format_buffer(options.config, options.code)
+	update_code(stdout);
+	stdout = "";
 }
 
 function load_config(evt){
@@ -132,9 +148,9 @@ function create_inputs(options){
 	if(typeof(clang_version) === 'undefined')
 	{
 		clang_options = options;
-		clang_version = options.versions[0];
+		clang_version = "v15";
 
-		var version_input = select_input('clang_version', options.versions);
+		var version_input = select_input('clang_version', ['v15']);
 		$(version_input).appendTo($('#version'));
 
 		$('#clang_version').on('change', function(evt){

@@ -38,3 +38,6 @@ emsdk:
 llvm-project:
 	git clone --branch release/15.x --depth 1 git@github.com:llvm/llvm-project.git
 	cd llvm-project && git apply ../clang_format.patch
+
+options.json:
+	node parse-doc.js > options.json

@@ -174,26 +174,30 @@ function create_inputs(options){
 
 function create_input(option_name, option_details){
 	var input_template;
+	console.log(option_details);
 
 	if(option_details.type === 'BraceWrappingFlags')
 		input_template = flags_input(option_name, option_details.options);
-	else if($.isArray(option_details.options))
+	else if($.isArray(option_details.options) && option_details.options.length > 0)
 		input_template = select_input(option_name, ['Default'].concat(option_details.options));
-	else if(option_details.type === 'bool')
+	else if(option_details.type === 'bool' || option_details.type === 'Boolean')
 		input_template = select_input(option_name, ['Default', true, false]);
-	else if(option_details.type === 'std::string' || option_details.type === 'string')
+	else if(option_details.type === 'std::string' || option_details.type === 'string' || option_details.type === 'String')
 		input_template = string_input(option_name);
 	else if(option_details.type === 'std::vector<std::string>')
 		input_template = string_input(option_name);
-	else if(option_details.type === 'int')
+	else if(option_details.type === 'int' || option_details.type === 'Integer')
 		input_template = int_input(option_name);
-	else if(option_details.type === 'unsigned')
+	else if(option_details.type === 'unsigned' || option_details.type === 'Unsigned')
 		input_template = int_input(option_name, 0);
 	else
 	{
 		console.log('No input created for ' + option_name + ' (type: ' + option_details.type + ')');
 	}
-
+	console.log(input_template);
+	if (input_template === undefined) 
+		return "";
+	
 	var template =
 		'<div class="form-group">' +
 		'	<label class="col-sm-8">' +
